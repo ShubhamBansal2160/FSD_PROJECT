@@ -1,0 +1,104 @@
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-resource.js"></script>
+	
+<script type="text/javascript" src="app/app.js"></script>
+<script type="text/javascript" src="app/projectctl.controller.js"></script>
+<script type="text/javascript" src="app/project.service.js"></script> 
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div class="panel-body" ng-app="managerApp" ng-controller="ProjectCtl">
+			<form class="col-md-4" ng-submit="saveProject()">
+				<div class="form-group">
+					<label for="Project">Project id:</label> <input type="text"
+						ng-model="project.project_id" class="form-control" id="Project_id"
+						placeholder="Project ID">
+				</div>
+				<div class="form-group">
+					<label for="Project">Project:</label> <input type="text"
+						ng-model="project.project" class="form-control" id="Project"
+						placeholder="Project">
+				</div>
+				<div class="form-group">
+				<input type="checkbox" name=DateCheck onclick="enable_text(this.checked)" ><label for="dateCheckbox">Set Dates? </label>
+				</br>				
+				<label for="dateCheckbox">Start Date</label>
+				<input type="date" ng-model="project.start_Date" class="form-control"
+						id="start Date" alt="StartDate">
+				</br>
+				<label for="dateCheckbox">End Date</label>
+				<input type="date" ng-model="project.end_Date" class="form-control" id="end Date" alt="EndDate">
+					
+				</div>
+
+				<div class="form-group">
+					<label for="PriorityBar">Priority 	{{project.priority}}</label> 
+
+					<input type="range" min="1" max="30" value="1"
+						ng-model="project.priority" class="form-control"
+						id="projectPriority" placeholder="Priority">
+				</div>
+				
+				
+				<!--  <div class="form-group">
+					<label for="Manager">Manager</label> 
+					<input type="text"
+						ng-model="user.user_id" class="form-control"
+						id="userID" placeholder="ManagerID">
+						<button type="submit" class="btn btn-default">{{SearchButtonText}}</button>
+				</div>
+				 -->				
+				
+				<button type="submit" class="btn btn-default">{{AddButtonText}}</button>
+				<button type="reset" class="btn btn-default">{{ResetButtonText}}</button>
+				
+			</form>
+
+			<div class="table-responsive col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>Project</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th>Priority</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="project in projects">
+						<td>{{project.project}}</td>
+						<td>{{project.start_Date}}</td>
+						<td>{{project.end_date}}</td>
+						<td>{{project.priority}}</td>
+						<td>
+							<button type="button" class="btn btn-default"
+								ng-click="updateProjectInit(project)">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+								ng-click="deleteProject(project)">
+								<span class="glyphicon glyphicon-remove-circle"
+									aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>

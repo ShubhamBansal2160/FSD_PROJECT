@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Manager Application</title>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-resource.js"></script>
+	
+<script type="text/javascript" src="app/app.js"></script>
+<script type="text/javascript" src="app/general.controller.js"></script>
+<script type="text/javascript" src="app/project.service.js"></script> 
+<script type="text/javascript" src="app/users.service.js"></script>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script language="JavaScript">
+
+/*
+function enable_text(status)
+{
+status=!status;	
+	document.f1.other_text.disabled = status;
+}
+*/
+
+
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+
+</script>
+
+</head>
+<body ng-app="managerApp" ng-controller="GeneralController">
+<style>
+.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+	</style>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading"><B>Project Manager</B></div>
+		<div class="tab">
+		  <button class="tablinks" onclick="openTab(event, 'Project')">Add Project</button>
+		  <button class="tablinks" onclick="openTab(event, 'AddTask')">Add Task</button>
+		  <button class="tablinks" onclick="openTab(event, 'Users')">Add User</button>
+		  <button class="tablinks" onclick="openTab(event, 'ViewTask')">View Task</button>
+		</div>
+		
+		<div id="Project" class="tabcontent">
+		<div class="panel-body">
+			<form class="col-md-4" ng-submit="saveProject()">
+				<div class="form-group">
+					<label for="Project">Project id:</label> <input type="text"
+						ng-model="project.project_id" class="form-control" id="Project_id"
+						placeholder="Project ID">
+				</div>
+				<div class="form-group">
+					<label for="Project">Project:</label> <input type="text"
+						ng-model="project.project" class="form-control" id="Project"
+						placeholder="Project">
+				</div>
+				<div class="form-group">
+				<input type="checkbox" name=DateCheck onclick="enable_text(this.checked)" ><label for="dateCheckbox">Set Dates? </label>
+				</br>				
+				<label for="dateCheckbox">Start Date</label>
+				<input type="date" ng-model="project.start_Date" class="form-control"
+						id="start Date" alt="StartDate">
+				</br>
+				<label for="dateCheckbox">End Date</label>
+				<input type="date" ng-model="project.end_Date" class="form-control" id="end Date" alt="EndDate">
+					
+				</div>
+
+				<div class="form-group">
+					<label for="PriorityBar">Priority</label> 
+					<input type="range" min="0" max="30"
+						ng-model="project.priority" class="form-control"
+						id="projectPriority" placeholder="Priority">
+				</div>
+				
+				
+				<!--  <div class="form-group">
+					<label for="Manager">Manager</label> 
+					<input type="text"
+						ng-model="user.user_id" class="form-control"
+						id="userID" placeholder="ManagerID">
+						<button type="submit" class="btn btn-default">{{SearchButtonText}}</button>
+				</div>
+				 -->				
+				
+				<button type="submit" class="btn btn-default">{{AddButtonText}}</button>
+				<button type="reset" class="btn btn-default">{{ResetButtonText}}</button>
+				
+			</form>
+
+			<div class="table-responsive col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>Project</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th>Priority</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="project in projects">
+						<td>{{project.project}}</td>
+						<td>{{project.start_Date}}</td>
+						<td>{{project.end_date}}</td>
+						<td>{{project.priority}}</td>
+						<td>
+							<button type="button" class="btn btn-default"
+								ng-click="updateProjectInit(project)">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+								ng-click="deleteProject(project)">
+								<span class="glyphicon glyphicon-remove-circle"
+									aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+	<div id="AddTask" class="tabcontent">
+		<div class="panel-body">
+			<form class="col-md-4" ng-submit="saveTask()">
+				<div class="form-group">
+					<label for="Task">Task id:</label> <input type="text"
+						ng-model="task.task_id class="form-control" id="task_id"
+						placeholder="Task ID">
+				</div>
+				<div class="form-group">
+					<label for="TaskParent">Parent:</label> <input type="text"
+						ng-model="task.parent" class="form-control" id="Task"
+						placeholder="Project">
+				</div>
+				<div class="form-group">
+					<label for="PriorityBar">Priority</label> 
+					<input type="range" min="0" max="30"
+						ng-model="task.priority" class="form-control"
+						id="taskPriority" placeholder="Priority">
+				</div>
+				<div class="form-group">
+				<input type="checkbox" name=DateCheck onclick="enable_text(this.checked)" ><label for="dateCheckbox">Set Dates? </label>
+				</br>				
+				<label for="dateCheckbox">Start Date</label>
+				<input type="date" ng-model="task.start_Date" class="form-control"
+						id="start Date" alt="StartDate">
+				</br>
+				<label for="dateCheckbox">End Date</label>
+				<input type="date" ng-model="task.end_Date" class="form-control" id="end Date" alt="EndDate">
+					
+				</div>
+
+				
+				
+				
+				<!--  <div class="form-group">
+					<label for="Manager">Manager</label> 
+					<input type="text"
+						ng-model="user.user_id" class="form-control"
+						id="userID" placeholder="ManagerID">
+						<button type="submit" class="btn btn-default">{{SearchButtonText}}</button>
+				</div>
+				 -->				
+				
+				<button type="submit" class="btn btn-default">Add Task</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+				
+			</form>
+
+			<div class="table-responsive col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>Project</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th>Priority</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="project in projects">
+						<td>{{task.project}}</td>
+						<td>{{task.start_Date}}</td>
+						<td>{{task.end_date}}</td>
+						<td>{{task.priority}}</td>
+						<td>
+							<button type="button" class="btn btn-default"
+								ng-click="updateTaskInit(task)">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+								ng-click="deleteTask(task)">
+								<span class="glyphicon glyphicon-remove-circle"
+									aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+	<div id="Users" class="tabcontent">
+		<div class="panel-body">
+			<form class="col-md-4" ng-submit="saveUsers()">
+				<div class="form-group">
+					<label for="Users">User id:</label> <input type="text"
+						ng-model="Users.user_id" class="form-control" id="user_id"
+						placeholder="User ID">
+				</div>
+				<div class="form-group">
+					<label for="Users">First Name:</label> <input type="text"
+						ng-model="users.first_Name" class="form-control" id="first_Name"
+						placeholder="First Name">
+				</div>
+				<div class="form-group">
+					<label for="Users">Last Name:</label> <input type="text"
+						ng-model="users.last_Name" class="form-control" id="last_Name"
+						placeholder="Last Name">
+				</div>				
+
+				<div class="form-group">
+					<label for="users">Emplopyee ID</label> 
+					<input type="text" 
+						ng-model="users.employee_id" class="form-control"
+						id="employee_id" placeholder="Employee Id">
+				</div>
+				<div class="form-group">
+					<label for="users">Project ID</label> 
+					<input type="text" 
+						ng-model="users.project_id" class="form-control"
+						id="project_id" placeholder="Project Id">
+				</div>
+				<div class="form-group">
+					<label for="users">Task ID</label> 
+					<input type="text" 
+						ng-model="users.task_id" class="form-control"
+						id="task_id" placeholder="Task Id">
+				</div>
+				
+				
+				<!--  <div class="form-group">
+					<label for="Manager">Manager</label> 
+					<input type="text"
+						ng-model="user.user_id" class="form-control"
+						id="userID" placeholder="ManagerID">
+						<button type="submit" class="btn btn-default">{{SearchButtonText}}</button>
+				</div>
+				 -->				
+				
+				<button type="submit" class="btn btn-default">Add User</button>
+				<button type="reset" class="btn btn-default">Reset</button>
+				
+			</form>
+
+			<div class="table-responsive col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>User ID</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Employee ID</th>
+						<th>Project ID</th>
+						<th>Task ID</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="user in users">
+						<td>{{user.user_id}}</td>
+						<td>{{user.first_Name}}</td>
+						<td>{{user.last_Name}}</td>
+						<td>{{user.employee_id}}</td>
+						<td>{{user.project_id}}</td>
+						<td>{{user.task_id}}</td>
+						<td>
+							<button type="button" class="btn btn-default"
+								ng-click="updateUsersInit(users)">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+								ng-click="deleteUsers(users)">
+								<span class="glyphicon glyphicon-remove-circle"
+									aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<div id="ViewTask" class="tabcontent">
+		<div class="panel-body">
+			<form class="col-md-4" ng-submit="saveTask()">
+				<div class="form-group">
+					<label for="Task">Project id:</label> <input type="text"
+						ng-model="project.project_id" class="form-control" id="Project_id"
+						placeholder="Project ID">
+				</div>
+				<div class="form-group">
+					<label for="Project">Project:</label> <input type="text"
+						ng-model="project.project" class="form-control" id="Project"
+						placeholder="Project">
+				</div>
+				<div class="form-group">
+				<input type="checkbox" name=DateCheck onclick="enable_text(this.checked)" ><label for="dateCheckbox">Set Dates? </label>
+				</br>				
+				<label for="dateCheckbox">Start Date</label>
+				<input type="date" ng-model="project.start_Date" class="form-control"
+						id="start Date" alt="StartDate">
+				</br>
+				<label for="dateCheckbox">End Date</label>
+				<input type="date" ng-model="project.end_Date" class="form-control" id="end Date" alt="EndDate">
+					
+				</div>
+
+				<div class="form-group">
+					<label for="PriorityBar">Priority</label> 
+					<input type="range" min="1" max="30" value="1" steps="1"
+						ng-model="project.priority" class="form-control"
+						id="projectPriority" placeholder="Priority" value="0">
+				</div>
+				
+				
+				<!--  <div class="form-group">
+					<label for="Manager">Manager</label> 
+					<input type="text"
+						ng-model="user.user_id" class="form-control"
+						id="userID" placeholder="ManagerID">
+						<button type="submit" class="btn btn-default">{{SearchButtonText}}</button>
+				</div>
+				 -->				
+				
+				<!-- <button type="submit" class="btn btn-default">{{AddButtonText}}</button> 
+				<button type="reset" class="btn btn-default">{{ResetButtonText}}</button> -->
+				
+			</form>
+
+			<div class="table-responsive col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>Project</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th>Priority</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="project in projects">
+						<td>{{project.project}}</td>
+						<td>{{project.start_Date}}</td>
+						<td>{{project.end_date}}</td>
+						<td>{{project.priority}}</td>
+						<td>
+							<button type="button" class="btn btn-default"
+								ng-click="updateProjectInit(project)">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+								ng-click="deleteProject(project)">
+								<span class="glyphicon glyphicon-remove-circle"
+									aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-resource.js"></script>
+	
+<script type="text/javascript" src="app/apptask.js"></script>
+<script type="text/javascript" src="app/taskctl.controller.js"></script>
+<script type="text/javascript" src="app/task.service.js"></script> 
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div class="panel-body" ng-app="managerTaskApp" ng-controller="TaskCtl">
+			<form class="col-md-4" ng-submit="saveTask()">
+				<div class="form-group">
+					<label for="Task">Task id:</label> <input type="text"
+						ng-model="task.task_id" class="form-control" id="Task_id"
+						placeholder="Task ID">
+				</div>
+				 <div class="form-group">
+					<label for="Task">Task:</label> <input type="text"
+						ng-model="task.task" class="form-control" id="Task"
+						placeholder="Task">
+				</div>
+				
+				<div class="form-group">
+				<input type="checkbox" name=DateCheck onclick="enable_text(this.checked)" ><label for="dateCheckbox">Set Dates? </label>
+				</br>				
+				<label for="dateCheckbox">Start Date</label>
+				<input type="date" ng-model="task.start_Date" class="form-control"
+						id="start Date" alt="StartDate">
+				</br>
+				<label for="dateCheckbox">End Date</label>
+				<input type="date" ng-model="task.end_Date" class="form-control" id="end Date" alt="EndDate">
+					
+				</div>
+
+				<div class="form-group">
+					<label for="PriorityBar">Priority 	{{task.priority}}</label> 
+
+					<input type="range" min="1" max="30" value="5"
+						ng-model="task.priority" class="form-control"
+						id="taskPriority" placeholder="Priority">
+				</div>
+				
+				
+				<!--  <div class="form-group">
+					<label for="Manager">Manager</label> 
+					<input type="text"
+						ng-model="user.user_id" class="form-control"
+						id="userID" placeholder="ManagerID">
+						<button type="submit" class="btn btn-default">{{SearchButtonText}}</button>
+				</div>
+				 -->				
+				
+				<button type="submit" class="btn btn-default">{{AddButtonText}}</button>
+				<button type="reset" class="btn btn-default">{{ResetButtonText}}</button>
+				
+			</form>
+
+			<div class="table-responsive col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>TaskId</th>
+						<th>Task</th>
+						<th>Start Date</th>
+						<th>End Date</th>
+						<th>Priority</th>
+						<th>Manager</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="task in tasks">
+						<td>{{task.task_id}}</td>
+						<td>{{task.task}}</td>
+						<td>{{task.start_Date}}</td>
+						<td>{{task.end_date}}</td>
+						<td>{{task.priority}}</td>
+						<td>{{user.user_id}}</td>
+						<td>
+							<button type="button" class="btn btn-default"
+								ng-click="updateTaskInit(task)">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+								ng-click="deleteTask(task)">
+								<span class="glyphicon glyphicon-remove-circle"
+									aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>

@@ -1,0 +1,13 @@
+com\managerApplication\controller\UsersResource.class
+com\managerApplication\model\Employee.class
+com\managerApplication\ManagerApplication.class
+com\managerApplication\service\UsersService.class
+com\managerApplication\service\EmployeeService.class
+com\managerApplication\repository\EmployeeRepository.class
+com\managerApplication\controller\ProjectResource.class
+com\managerApplication\repository\ProjectRepository.class
+com\managerApplication\service\ProjectService.class
+com\managerApplication\model\Users.class
+com\managerApplication\controller\EmployeeResource.class
+com\managerApplication\model\Project.class
+com\managerApplication\repository\UsersRepository.class

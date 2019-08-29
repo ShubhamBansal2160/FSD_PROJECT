@@ -1,0 +1,114 @@
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+<script type="text/javascript"
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular-resource.js"></script>
+	
+<script type="text/javascript" src="app/appusers.js"></script>
+<script type="text/javascript" src="app/userctl.controller.js"></script>
+<script type="text/javascript" src="app/users.service.js"></script> 
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<link href="src/css/angular-datepicker.css" rel="stylesheet" type="text/css" />
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<div class="panel-body" ng-app="managerUsersApp" ng-controller="UserCtl">
+			<form class="col-md-4" ng-submit="saveUser()">
+				<div class="form-group">
+					<label for="User">User id:</label> <input type="text"
+						ng-model="user.user_id" class="form-control" id="user_id"
+						placeholder="User ID">
+				</div>
+				<div class="form-group">
+					<label for="User">First Name:</label> <input type="text"
+						ng-model="user.first_Name" class="form-control" id="first_Name"
+						placeholder="First Name">
+				</div>
+				<div class="form-group">
+					<label for="User">Last Name:</label> <input type="text"
+						ng-model="user.last_Name" class="form-control" id="last_Name"
+						placeholder="Last Name">
+				</div>				
+
+				<div class="form-group">
+					<label for="User">Emplopyee ID</label> 
+					<input type="text" 
+						ng-model="user.employee_id" class="form-control"
+						id="employee_id" placeholder="Employee Id">
+				</div>
+				
+				<div class="form-group">
+					<label for="User">Project ID</label> 
+					<input type="text" 
+						ng-model="user.project_id" class="form-control"
+						id="project_id" placeholder="Project Id">
+				</div>
+				<div class="form-group">
+					<label for="User">Task ID</label> 
+					<input type="text" 
+						ng-model="user.task_id" class="form-control"
+						id="task_id" placeholder="Task Id">
+				</div>
+				
+				
+				<!--  <div class="form-group">
+					<label for="Manager">Manager</label> 
+					<input type="text"
+						ng-model="user.user_id" class="form-control"
+						id="userID" placeholder="ManagerID">
+						<button type="submit" class="btn btn-default">{{SearchButtonText}}</button>
+				</div>
+				 -->				
+				
+				<button type="submit" class="btn btn-default">{{AddButtonText}}</button>
+				<button type="reset" class="btn btn-default">{{ResetButtonText}}</button>
+				
+			</form>
+
+			<div class="table-responsive col-md-6">
+				<table class="table table-striped">
+					<tr>
+						<th>User ID</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Employee ID</th>
+						<th>Project ID</th>
+						<th>Task ID</th>
+						<th></th>
+					</tr>
+					<tr ng-repeat="user in users">
+						<td>{{user.user_id}}</td>
+						<td>{{user.first_Name}}</td>
+						<td>{{user.last_Name}}</td>
+						<td>{{user.employee_id}}</td>
+						<td>{{user.project_id}}</td>
+						<td>{{user.task_id}}</td>
+						<td>
+							<button type="button" class="btn btn-default"
+								ng-click="updateUserInit(user)">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							</button>
+							<button type="button" class="btn btn-default"
+								ng-click="deleteUser(user)">
+								<span class="glyphicon glyphicon-remove-circle"
+									aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>

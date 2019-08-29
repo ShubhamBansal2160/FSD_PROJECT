@@ -1,0 +1,1 @@
+var appuser = angular.module("managerUsersApp", ['ngResource']);
